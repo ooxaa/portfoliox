@@ -14,13 +14,13 @@
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤭</text></svg>" />
   </head>
-  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white">
+  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white pb-20">
     <!-- STICKY NAVBAR -->
     <nav class="sticky top-0 z-40 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900/80 py-4 transition-all">
       <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
         <!-- BRANDING LOGO -->
         <a href="#" class="font-mono text-xl sm:text-2xl font-extrabold tracking-tight text-white hover:opacity-90 transition flex items-center shrink-0">
-          {code<span class="text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.3)]">ox</span>}
+          {code<span class="text-indigo-400 theme-text drop-shadow-[0_0_8px_rgba(129,140,248,0.3)]">ox</span>}
         </a>
 
         <!-- MENU + COLOR PICKER -->
@@ -48,7 +48,7 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <section id="about" class="max-w-3xl mx-auto px-6 pt-16 pb-16">
+    <section id="about" class="max-w-3xl mx-auto px-6 pt-12 pb-12">
       <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-10">
         <div class="flex-1">
           <div class="inline-flex items-center gap-2 text-xs text-zinc-400 font-mono bg-zinc-900/80 border border-zinc-800/80 px-3 py-1.5 rounded-full mb-6 opacity-0 animate-enter">
@@ -56,14 +56,14 @@
             Available for Freelance & Collaboration
           </div>
 
-          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4 leading-tight opacity-0 animate-enter delay-1">
-            Front-End Developer & <br />
-            <span class="text-zinc-400 font-normal">Graphic Designer.</span>
-          </h1>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-2 leading-tight opacity-0 animate-enter delay-1">Hi, I'm <span class="text-zinc-200 font-medium">Ox</span>.</h1>
 
-          <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg mb-8 opacity-0 animate-enter delay-2">
-            Hi, I'm <span class="text-zinc-200 font-medium">Ox</span>. I build clean, responsive, and intuitive web interfaces — blending solid code logic with thoughtful visual design.
-          </p>
+          <!-- TYPING EFFECT INTEGRATION -->
+          <h2 class="text-lg sm:text-xl text-zinc-400 font-mono mb-6 opacity-0 animate-enter delay-1">
+            I'm a <span id="typing-text" class="text-indigo-400 theme-text font-bold border-r-2 border-indigo-400 theme-border pr-1 animate-pulse"></span>
+          </h2>
+
+          <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg mb-8 opacity-0 animate-enter delay-2">I build clean, responsive, and intuitive web interfaces — blending solid code logic with thoughtful visual design.</p>
 
           <div class="flex items-center gap-4 text-sm font-medium opacity-0 animate-enter delay-3">
             <a href="#projects" class="px-5 py-2.5 bg-white text-zinc-950 hover:bg-zinc-200 font-semibold rounded-lg transition hover:-translate-y-0.5 shadow-lg">View Projects</a>
@@ -74,6 +74,33 @@
         <div class="relative opacity-0 animate-enter delay-1 shrink-0">
           <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 shadow-xl transition duration-500 hover:border-zinc-700 group">
             <img src="assets/pic1_compressed.png" alt="Ox Profile" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+          </div>
+        </div>
+      </div>
+
+      <!-- TERMINAL MINI-WIDGET -->
+      <div class="mt-12 bg-zinc-900/90 border border-zinc-800 rounded-xl overflow-hidden font-mono text-xs shadow-xl opacity-0 animate-enter delay-3">
+        <!-- Terminal Header Bar -->
+        <div class="bg-zinc-900 border-b border-zinc-800/80 px-4 py-2.5 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+          </div>
+          <span class="text-zinc-500 text-[11px]">ox-terminal — bash</span>
+        </div>
+
+        <!-- Terminal Body -->
+        <div class="p-4 space-y-3 bg-zinc-950">
+          <p class="text-zinc-500">// Type <span class="text-indigo-400 theme-text font-semibold">'help'</span> to see available commands.</p>
+
+          <!-- Output Box -->
+          <div id="terminal-output" class="h-40 overflow-y-auto space-y-2 break-all pr-2 text-zinc-300"></div>
+
+          <!-- Input Line -->
+          <div class="flex items-center gap-2 pt-2 border-t border-zinc-800/80">
+            <span class="text-emerald-400 font-bold shrink-0">ox@dev:~$</span>
+            <input type="text" id="terminal-input" autocomplete="off" class="w-full bg-transparent text-zinc-100 outline-none border-none p-0 focus:ring-0 text-xs" placeholder="try 'skills' or 'whoami'..." />
           </div>
         </div>
       </div>
@@ -90,7 +117,7 @@
         <!-- CARD 1: JS CALCULATOR -->
         <div class="p-6 bg-zinc-900/40 border border-zinc-800/80 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/60 transition duration-300 group hover:-translate-y-1">
           <div class="flex justify-between items-start mb-3">
-            <h3 class="text-base font-semibold text-white group-hover:text-indigo-400 transition">Digital Calculator JS</h3>
+            <h3 class="text-base font-semibold text-white group-hover:text-indigo-400 theme-text transition">Digital Calculator JS</h3>
             <span class="text-[11px] font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Web App</span>
           </div>
 
@@ -99,7 +126,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs pt-4 border-t border-zinc-900">
             <div class="flex flex-wrap gap-2 font-mono text-zinc-500"><span>HTML</span> • <span>Tailwind</span> • <span>JavaScript</span></div>
             <div class="flex gap-4 font-medium self-start sm:self-auto">
-              <button onclick="openCalcModal()" class="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1 cursor-pointer font-semibold">Live Demo ↗</button>
+              <button onclick="openCalcModal()" class="text-indigo-400 theme-text hover:opacity-80 transition flex items-center gap-1 cursor-pointer font-semibold">Live Demo ↗</button>
             </div>
           </div>
         </div>
@@ -107,16 +134,16 @@
         <!-- CARD 2: LANDING PAGE EBOOK -->
         <div class="p-6 bg-zinc-900/40 border border-zinc-800/80 rounded-xl hover:border-zinc-700 hover:bg-zinc-900/60 transition duration-300 group hover:-translate-y-1">
           <div class="flex justify-between items-start mb-3">
-            <h3 class="text-base font-semibold text-white group-hover:text-indigo-400 transition">E-Book Sales Landing Page</h3>
+            <h3 class="text-base font-semibold text-white group-hover:text-indigo-400 theme-text transition">E-Book Sales Landing Page</h3>
             <span class="text-[11px] font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">Landing Page</span>
           </div>
 
           <p class="text-zinc-400 text-sm leading-relaxed mb-5">A high-converting sales landing page for digital products, crafted with clean typography and a fully responsive layout.</p>
 
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs pt-4 border-t border-zinc-900">
-            <div class="flex flex-wrap gap-2 font-mono text-zinc-500"><span>HTML</span> • <span>Tailwind</span> • <span>Vercel</span></div>
+            <div class="flex flex-wrap gap-2 font-mono text-zinc-500"><span>HTML</span> • <span>Tailwind</span> • <span>Digital Product</span></div>
             <div class="flex gap-4 font-medium self-start sm:self-auto">
-              <a href="https://ooxaa.github.io/devbyox/" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1 font-semibold">View Page ↗</a>
+              <button onclick="openEbookModal()" class="text-indigo-400 theme-text hover:opacity-80 transition flex items-center gap-1 cursor-pointer font-semibold">Quick Preview ↗</button>
             </div>
           </div>
         </div>
@@ -132,10 +159,10 @@
         </div>
 
         <div class="flex flex-wrap gap-1.5 text-xs font-mono">
-          <button onclick="filterSkills('all', event)" class="skill-btn active px-3 py-1.5 bg-indigo-600 text-white rounded-md transition duration-200">All</button>
-          <button onclick="filterSkills('frontend', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200">Frontend</button>
-          <button onclick="filterSkills('design', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200">Design</button>
-          <button onclick="filterSkills('tools', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200">Tools</button>
+          <button onclick="filterSkills('all', event)" class="skill-btn active theme-bg px-3 py-1.5 bg-indigo-600 text-white rounded-md transition duration-200 cursor-pointer">All</button>
+          <button onclick="filterSkills('frontend', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200 cursor-pointer">Frontend</button>
+          <button onclick="filterSkills('design', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200 cursor-pointer">Design</button>
+          <button onclick="filterSkills('tools', event)" class="skill-btn px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white rounded-md transition duration-200 cursor-pointer">Tools</button>
         </div>
       </div>
 
@@ -222,43 +249,87 @@
       <p>© 2026 {codeox}. Built with clean code & minimalist aesthetics.</p>
     </footer>
 
+    <!-- STICKY INTERACTIVE BUY ME A COFFEE WIDGET -->
+    <div class="fixed bottom-5 right-5 z-40">
+      <button
+        onclick="toggleCoffee()"
+        class="flex items-center gap-2 px-4 py-2.5 bg-zinc-900 border border-zinc-700/80 text-amber-400 hover:text-amber-300 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition cursor-pointer font-medium text-xs backdrop-blur-md"
+      >
+        <span class="text-base animate-bounce">👀</span>
+        <span>Curious?</span>
+      </button>
+
+      <!-- Coffee Popover Box -->
+      <div id="coffeeBox" class="hidden absolute bottom-14 right-0 w-64 p-4 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl text-xs font-sans text-zinc-300">
+        <div class="flex justify-between items-center mb-2 pb-2 border-b border-zinc-800">
+          <span class="font-bold text-white flex items-center gap-1.5">Gotcha! Now that you're here, treat Ox to a coffee? ☕</span>
+          <button onclick="toggleCoffee()" class="text-zinc-500 hover:text-white font-bold cursor-pointer">✕</button>
+        </div>
+        <!-- <p class="text-[11px] text-zinc-400 leading-relaxed mb-3">Aha! Gotcha! Now that you're here, treat Ox to a coffee? ☕</p> -->
+        <a href="https://lynk.id/ooxaa_" target="_blank" class="block w-full text-center py-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-lg transition shadow-md"> Send Ox a Coffee 🤗 </a>
+      </div>
+    </div>
+
+    <!-- E-BOOK PREVIEW MODAL -->
+    <div id="ebookModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-zinc-950 border border-zinc-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl relative">
+        <div class="flex justify-between items-center mb-4 pb-3 border-b border-zinc-800">
+          <h3 class="text-sm font-semibold text-white">Project Detail: <span class="text-indigo-400 theme-text">E-Book Sales Page</span></h3>
+          <button onclick="closeEbookModal()" class="text-zinc-500 hover:text-white text-lg font-bold px-2 transition cursor-pointer">✕</button>
+        </div>
+        <div class="space-y-3 text-xs text-zinc-300">
+          <div class="w-full h-40 bg-zinc-900 rounded-xl border border-zinc-800 flex items-center justify-center text-zinc-600 font-mono">[ Project Mockup / Screenshot Preview ]</div>
+          <p class="text-zinc-400 leading-relaxed">An interactive landing page designed to boost digital product sales (e-books, templates, & e-courses). Features responsive CTA buttons and a modern layout.</p>
+        </div>
+        <div class="mt-6 flex justify-end gap-3 text-xs font-semibold">
+          <button onclick="closeEbookModal()" class="px-4 py-2 bg-zinc-900 text-zinc-400 hover:text-white rounded-lg border border-zinc-800 cursor-pointer">Close</button>
+          <a href="https://ooxaa.github.io/devbyox/" target="_blank" class="px-4 py-2 bg-indigo-600 theme-bg hover:opacity-90 text-white rounded-lg transition">Visit Full Page ↗</a>
+        </div>
+      </div>
+    </div>
+
     <!-- POP-UP MODAL DEMO KALKULATOR PRANK PRO -->
     <div id="calcModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
       <div class="bg-zinc-950 border border-zinc-800 w-full max-w-sm rounded-2xl p-6 shadow-2xl relative">
         <div class="flex justify-between items-center mb-6 pb-3 border-b border-zinc-800">
-          <h3 class="text-sm font-semibold font-mono text-zinc-300">Calculator <span class="text-indigo-400">by</span><span class="text-xs text-rose-500 font-black"> Ox</span></h3>
-          <button onclick="closeCalcModal()" class="text-zinc-500 hover:text-white text-lg font-bold px-2 transition">✕</button>
+          <h3 class="text-sm font-semibold font-mono text-zinc-300">Calculator <span class="text-indigo-400 theme-text">by</span><span class="text-xs text-rose-500 font-black"> Ox</span></h3>
+          <button onclick="closeCalcModal()" class="text-zinc-500 hover:text-white text-lg font-bold px-2 transition cursor-pointer">✕</button>
         </div>
 
         <div class="bg-black p-5 rounded-2xl border border-zinc-800 shadow-inner">
           <div class="bg-zinc-900/80 p-4 rounded-xl border border-zinc-800 mb-5 relative overflow-hidden">
-            <input id="calcDisplay" type="text" readonly placeholder="0" class="w-full bg-transparent text-right text-2xl font-mono text-indigo-400 outline-none tracking-wider py-1 placeholder:text-zinc-600" />
-            <span class="absolute top-1 left-2 text-[9px] font-mono text-indigo-500/70">STATUS: ???</span>
+            <input id="calcDisplay" type="text" readonly placeholder="0" class="w-full bg-transparent text-right text-2xl font-mono text-indigo-400 theme-text outline-none tracking-wider py-1 placeholder:text-zinc-600" />
+            <span class="absolute top-1 left-2 text-[9px] font-mono text-indigo-500/70 theme-text">STATUS: ???</span>
           </div>
 
           <div class="grid grid-cols-4 gap-2 text-xs font-mono">
-            <button onclick="showFakePay()" class="col-span-2 bg-zinc-800 hover:bg-zinc-700 text-rose-400 py-3 rounded-lg font-semibold transition active:scale-95">AC</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 py-3 rounded-lg transition active:scale-95">/</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 py-3 rounded-lg transition active:scale-95">*</button>
+            <button onclick="resetCalcDisplay()" class="col-span-2 bg-zinc-800 hover:bg-zinc-700 text-rose-400 py-3 rounded-lg font-semibold transition active:scale-95 cursor-pointer">AC</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 theme-text py-3 rounded-lg transition active:scale-95 cursor-pointer">/</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 theme-text py-3 rounded-lg transition active:scale-95 cursor-pointer">*</button>
 
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">7</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">8</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">9</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 py-3 rounded-lg transition active:scale-95">-</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">7</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">8</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">9</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 theme-text py-3 rounded-lg transition active:scale-95 cursor-pointer">-</button>
 
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">4</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">5</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">6</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 py-3 rounded-lg transition active:scale-95">+</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">4</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">5</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">6</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-800 hover:bg-zinc-700 text-indigo-400 theme-text py-3 rounded-lg transition active:scale-95 cursor-pointer">+</button>
 
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">1</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">2</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">3</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">1</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">2</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">3</button>
 
-            <button onclick="showFakePay()" class="row-span-2 bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-lg font-bold transition flex items-center justify-center active:scale-95 shadow-lg shadow-indigo-600/30">=</button>
+            <button
+              onclick="showFakePay()"
+              class="row-span-2 bg-indigo-600 theme-bg hover:opacity-90 text-white py-3 rounded-lg font-bold transition flex items-center justify-center active:scale-95 shadow-lg shadow-indigo-600/30 cursor-pointer"
+            >
+              =
+            </button>
 
-            <button onclick="sabotageCalc()" class="col-span-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">0</button>
-            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95">.</button>
+            <button onclick="sabotageCalc()" class="col-span-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">0</button>
+            <button onclick="sabotageCalc()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-lg transition active:scale-95 cursor-pointer">.</button>
           </div>
         </div>
 
@@ -278,7 +349,7 @@
 
           <button
             onclick="closeFakePay()"
-            class="w-full px-5 py-3 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs rounded-xl transition hover:scale-105 active:scale-95 uppercase tracking-wider shadow-lg shadow-amber-500/30"
+            class="w-full px-5 py-3 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs rounded-xl transition hover:scale-105 active:scale-95 uppercase tracking-wider shadow-lg shadow-amber-500/30 cursor-pointer"
           >
             I Can't Afford This
           </button>
@@ -287,7 +358,7 @@
       </div>
     </div>
 
-    <!-- JavaScript Eksternal -->
-    <script src="js/script.js"></script>
+    <!-- Script JS Eksternal -->
+    <script src="js/script.js" defer></script>
   </body>
 </html>
