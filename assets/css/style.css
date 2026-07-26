@@ -28,3 +28,46 @@ body {
 .delay-3 {
   animation-delay: 0.3s;
 }
+
+/* Sembunyikan scrollbar tapi tetap bisa di-scroll */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Efek glitch sederhana untuk hacker mode */
+.glitch-effect {
+  text-shadow:
+    2px 0 red,
+    -2px 0 blue;
+  animation: glitch 1s linear infinite;
+}
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+#terminal-container {
+  /* Mencegah scroll halaman saat user scroll di dalam terminal */
+  overscroll-behavior: contain;
+  /* Memastikan container tidak menabrak keyboard */
+  max-height: 80vh;
+}
+
+/* Optimasi mobile untuk font agar tidak auto-zoom di iOS */
+#terminal-input {
+  font-size: 16px !important; /* iOS akan auto-zoom jika font < 16px saat input fokus */
+}

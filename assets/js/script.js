@@ -320,3 +320,16 @@ document.querySelectorAll("#mobile-menu a").forEach((link) => {
     mobileMenu.classList.add("hidden");
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  new Typed("#typing-text", {
+    strings: ["Web Developer.", "Graphic Designer.", "Digital Product Creator."],
+    typeSpeed: 70,
+    backSpeed: 40,
+    backDelay: 2000,
+    loop: true,
+    cursorChar: "|",
+    // Memberikan sentuhan profesional agar tidak kaku
+    smartBackspace: true,
+  });
+});
