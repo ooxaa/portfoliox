@@ -306,3 +306,17 @@ function typeEffect() {
 document.addEventListener("DOMContentLoaded", () => {
   typeEffect();
 });
+
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobile-menu");
+
+hamburger.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+});
+
+// Menutup menu saat link diklik
+document.querySelectorAll("#mobile-menu a").forEach((link) => {
+  link.addEventListener("click", () => {
+    mobileMenu.classList.add("hidden");
+  });
+});
