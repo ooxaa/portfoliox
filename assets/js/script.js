@@ -320,3 +320,9 @@ document.querySelectorAll("#mobile-menu a").forEach((link) => {
     mobileMenu.classList.add("hidden");
   });
 });
+
+// Memaksa browser ke atas saat halaman dimuat
+window.history.scrollRestoration = "manual"; // Mencegah browser scroll otomatis ke posisi terakhir
+window.onload = () => {
+  window.scrollTo(0, 0);
+};

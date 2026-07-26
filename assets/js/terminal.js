@@ -133,3 +133,64 @@ function startMatrix() {
     });
   }, 50);
 }
+
+// Fungsi bantuan untuk membuat jeda (delay)
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function runBootSequence() {
+  const output = document.getElementById("terminal-output");
+  const input = document.getElementById("terminal-input");
+  const audio = document.getElementById("beep-sound");
+  const matrixCanvas = document.getElementById("matrix-canvas");
+  matrixCanvas.classList.remove("opacity-0"); // Menghilangkan transparansi total
+  matrixCanvas.classList.add("opacity-30"); // Mengatur visibilitas ke 30%
+
+  // Cek apakah sudah pernah boot sebelumnya agar tidak berulang-ulang
+  if (output.dataset.booted === "true") return;
+  output.dataset.booted = "true";
+
+  const bootLines = ["Initializing OX-OS v2.6.0...", "Mounting kernel modules... [OK]", "Configuring network interface... [OK]", "Loading user profile data... [OK]", "System ready. Type 'help' to start."];
+
+  input.disabled = true;
+  output.innerHTML = "";
+
+  for (let line of bootLines) {
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch((e) => console.log("Audio muted"));
+    }
+    const p = document.createElement("p");
+    p.className = "text-emerald-400 font-mono";
+    p.textContent = `> ${line}`;
+    output.appendChild(p);
+    output.scrollTop = output.scrollHeight;
+    await sleep(800);
+  }
+
+  input.disabled = false;
+  // Gunakan preventScroll agar tidak melompat saat boot selesai
+  input.focus({ preventScroll: true });
+}
+
+// MENGGUNAKAN INTERSECTION OBSERVER dengan DELAY
+const terminalSection = document.getElementById("terminal-container");
+
+const observerOptions = {
+  root: null,
+  threshold: 0.5,
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      // Menambahkan delay 500ms (0.5 detik) sebelum booting dimulai
+      setTimeout(() => {
+        runBootSequence();
+      }, 500);
+
+      observer.unobserve(terminalSection);
+    }
+  });
+}, observerOptions);
+
+observer.observe(terminalSection);
