@@ -5,6 +5,34 @@ body {
   font-family: "JetBrains Mono", monospace;
 }
 
+/* Mengunci ruang agar tidak bergeser */
+#typing-text {
+  display: inline-block;
+  min-width: 250px; /* Sesuaikan dengan lebar teks terpanjangmu */
+  white-space: pre; /* Memastikan spasi dihitung dengan benar */
+  vertical-align: top;
+  font-family: "JetBrains Mono", monospace !important;
+}
+
+/* Memastikan kursor bawaan Typed.js tidak bergetar */
+.typed-cursor {
+  font-weight: 100;
+  animation: blink 0.7s infinite;
+  opacity: 1;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Animasi Clean Entrance */
 @keyframes subtleSlideUp {
   from {
