@@ -114,6 +114,7 @@
         <div
           class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20 z-20"
         ></div>
+
         <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700 z-10"></canvas>
 
         <!-- Header Bar -->
@@ -123,7 +124,6 @@
             <span class="w-3 h-3 rounded-full bg-amber-500"></span>
             <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
           </div>
-          <span id="term-status" class="text-zinc-500 text-[10px] tracking-widest uppercase">bash</span>
         </div>
 
         <!-- Terminal Body -->
@@ -134,12 +134,21 @@
           </div>
 
           <!-- Input Line -->
-          <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
-            <span id="prompt-label" class="text-emerald-400 font-bold shrink-0">botby@ox:</span>
-            <!-- Ini kursor palsu untuk mobile -->
-            <span class="text-emerald-400 font-bold cursor-blink">_</span>
-            <!-- Hapus atribut "autofocus" pada input -->
-            <input type="text" id="terminal-input" autocomplete="off" class="w-full bg-transparent outline-none border-none p-0 text-white focus:ring-0 text-sm" />
+          <!-- Input Line -->
+          <div class="flex items-center gap-2 pt-2 border-t border-zinc-800 w-full overflow-hidden">
+            <!-- Label & Kursor (Shrink-0: Agar tidak ikut mengecil saat layar sempit) -->
+            <div class="flex items-center gap-1 shrink-0">
+              <span id="prompt-label" class="text-emerald-400 font-bold">botby@ox:</span>
+              <span class="text-emerald-400 font-bold cursor-blink">_</span>
+            </div>
+
+            <!-- Input Wrapper (Flex-1: Mengambil sisa ruang, Min-w-0: Mencegah overflow) -->
+            <div id="input-wrapper" class="flex flex-1 items-center gap-2 min-w-0">
+              <input type="text" id="terminal-input" autocomplete="off" class="w-full bg-transparent outline-none border-none p-0 text-white focus:ring-0 text-xs h-4" placeholder="Type here..." />
+
+              <!-- Tombol Send (Flex-shrink-0: Agar tombol tidak ikut mengecil/gepeng) -->
+              <button id="send-btn" class="flex-shrink-0 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-xs font-mono hover:bg-emerald-900/20 transition-all active:scale-95 whitespace-nowrap">Send</button>
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,8 @@ const termContainer = document.getElementById("terminal-container");
 const promptLabel = document.getElementById("prompt-label");
 const termStatus = document.getElementById("term-status");
 const canvas = document.getElementById("matrix-canvas");
+const sendBtn = document.getElementById("send-btn"); // Menambahkan referensi tombol
+
 const i18n = {
   en: {
     hero_title: "Hi, I'm Ox.",
@@ -32,7 +34,6 @@ const i18n = {
 let currentLang = localStorage.getItem("userLang") || "en";
 let isHackerMode = false;
 let matrixInterval = null;
-let secretNum = null;
 
 // FUNGSI UTAMA: Print teks
 async function print(text, delay = 10) {
@@ -46,12 +47,157 @@ async function print(text, delay = 10) {
   termOutput.scrollTop = termOutput.scrollHeight;
 }
 
+// FUNGSI PUSAT PEMROSESAN (Ini yang dipanggil tombol & enter)
+async function processInput() {
+  const fullCmd = termInput.value.trim();
+  if (!fullCmd) return; // Jangan proses kalau kosong
+
+  const lowerCmd = fullCmd.toLowerCase();
+  termInput.value = ""; // Kosongkan input
+
+  termOutput.innerHTML += `<div><span class="text-emerald-400">botby@ox:</span> ${fullCmd}</div>`;
+  termOutput.scrollTop = termOutput.scrollHeight;
+
+  const args = lowerCmd.split(" ");
+  const cmd = args[0];
+
+  switch (cmd) {
+    case "help":
+      await print("--- SYSTEM COMMANDS ---");
+      await sleep(200);
+      await print("  lang     - for Language/Bahasa");
+      await print("  about    - for About Me");
+      await print("  light    - for Switch Light Mode");
+      await print("  hacker   - for Hack Mode");
+      await print("  date     - for Show Current Date/Time");
+      await print("  matrix   - for Matrix Mode");
+      await print("  secret   - for Secret");
+      await print("  stop     - for Stop Commands");
+      await print("  clear    - for Clear Terminal Screen");
+      await print("  reboot   - for Restart the Terminal System");
+      await print("  say      - for Send a Message");
+      await print("----------------");
+      break;
+
+    case "lang":
+      const langCode = args[1];
+      if (langCode === "id" || langCode === "en") {
+        updateLanguage(langCode);
+        await print(i18n[currentLang].lang_changed);
+      } else {
+        await print("Available languages: id, en");
+      }
+      break;
+
+    case "about":
+      await print("--- SYSTEM INFO ---");
+      await print("User     : Ox");
+      await print("Based In : Bandung, Indonesia 🇮🇩");
+      await print("Stack    : HTML, CSS, Tailwind, JS");
+      await print("Focus    : Web Dev & Graphic Design");
+      await print("Status   : Open for new projects!");
+      await print("-------------------");
+      break;
+
+    case "light":
+      document.body.style.backgroundColor = "#ffffff";
+      document.body.style.color = "#000000";
+      await print("Switched to Light Mode!");
+      break;
+
+    case "hacker":
+      if (!isHackerMode) {
+        isHackerMode = true;
+        document.body.classList.add("glitch-effect");
+        promptLabel.className = "text-rose-500 font-bold";
+        termStatus.innerText = "HACKER MODE ACTIVE";
+        await print("Accessing deep system... [SECURITY BREACH]");
+      }
+      break;
+
+    case "date":
+      const now = new Date();
+      await print(`Current date & time: ${now.toLocaleString()}`);
+      break;
+
+    case "matrix":
+      startMatrix();
+      await print("Initializing Matrix Rain...");
+      break;
+
+    case "stop":
+      let stoppedSomething = false;
+      if (matrixInterval) {
+        clearInterval(matrixInterval);
+        matrixInterval = null;
+        canvas.classList.remove("opacity-80", "opacity-30");
+        canvas.classList.add("opacity-0");
+        stoppedSomething = true;
+      }
+      if (isHackerMode) {
+        isHackerMode = false;
+        document.body.classList.remove("glitch-effect");
+        promptLabel.className = "text-emerald-400 font-bold";
+        termStatus.innerText = "system ready";
+        stoppedSomething = true;
+      }
+      if (stoppedSomething) await print("Processes terminated.");
+      else await print("No active processes to stop.");
+      break;
+
+    case "clear":
+      termOutput.innerHTML = "";
+      break;
+
+    case "secret":
+      await print("Hidden Path Unlocked: Cookies for you 🍪");
+      break;
+
+    case "reboot":
+      await print("System reboot initiated...");
+      await sleep(800);
+      await print("Shutting down services...");
+      await sleep(600);
+      await print("Restarting kernel...");
+      await sleep(1000);
+      await print("Done 🗸");
+      await sleep(500);
+      location.reload();
+      break;
+
+    case "say":
+      const messageContent = args.slice(1).join(" ");
+      if (!messageContent) {
+        await print(i18n[currentLang].invalid_format);
+      } else {
+        try {
+          const response = await fetch("/api/send-message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: `New visitor message (${currentLang}): ${messageContent}` }),
+          });
+
+          if (response.ok) {
+            await print(i18n[currentLang].msg_sent);
+          } else {
+            await print(i18n[currentLang].err_failed);
+          }
+        } catch (error) {
+          await print(i18n[currentLang].err_failed);
+        }
+      }
+      break;
+
+    default:
+      await print(`Error: Command '${cmd}' not found. Did you mean 'help'?`);
+  }
+  termInput.focus(); // Kembalikan fokus ke input setelah perintah selesai
+}
+
 // --- FUNGSI UPDATE BAHASA ---
 function updateLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("userLang", lang);
-
-  // Mengganti semua elemen yang memiliki atribut data-i18n
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const key = element.getAttribute("data-i18n");
     if (i18n[lang][key]) {
@@ -60,19 +206,15 @@ function updateLanguage(lang) {
   });
 }
 
-// LOGIKA MATRIX (Disederhanakan agar tidak bentrok)
+// LOGIKA MATRIX
 function startMatrix() {
   if (matrixInterval) clearInterval(matrixInterval);
-
-  // Reset opacity sebelum mulai
   canvas.classList.remove("opacity-0", "opacity-30");
   canvas.classList.add("opacity-80");
-
   const ctx = canvas.getContext("2d");
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
   const drops = Array(Math.floor(canvas.width / 10)).fill(1);
-
   matrixInterval = setInterval(() => {
     ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -85,7 +227,6 @@ function startMatrix() {
   }, 50);
 }
 
-// FUNGSI BOOT SEQUENCE
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function runBootSequence() {
@@ -94,7 +235,6 @@ async function runBootSequence() {
   const audio = document.getElementById("beep-sound");
   const matrixCanvas = document.getElementById("matrix-canvas");
 
-  // Set opacity untuk boot sequence
   matrixCanvas.classList.remove("opacity-0", "opacity-80");
   matrixCanvas.classList.add("opacity-30");
 
@@ -123,158 +263,22 @@ async function runBootSequence() {
   input.focus({ preventScroll: true });
 }
 
+// --- EVENT LISTENERS ---
+
+// 1. Enter Key
 termInput.addEventListener("keydown", async (e) => {
-  if (e.key === "Enter") {
-    const fullCmd = termInput.value.trim();
-    const lowerCmd = fullCmd.toLowerCase();
-    termInput.value = "";
+  if (e.key === "Enter") await processInput();
+});
 
-    termOutput.innerHTML += `<div><span class="text-emerald-400">botby@ox:</span> ${fullCmd}</div>`;
-    termOutput.scrollTop = termOutput.scrollHeight;
+// 2. Button Click
+if (sendBtn) {
+  sendBtn.addEventListener("click", () => processInput());
+}
 
-    const args = lowerCmd.split(" ");
-    const cmd = args[0];
-
-    switch (cmd) {
-      case "help":
-        await print("--- SYSTEM COMMANDS ---");
-        await sleep(200);
-        await print("  lang     - for Language/Bahasa");
-        await print("  about    - for About Me");
-        await print("  light    - for Switch Light Mode");
-        await print("  hacker   - for Hack Mode");
-        await print("  date     - for Show Current Date/Time");
-        await print("  matrix   - for Matrix Mode");
-        await print("  secret   - for Secret");
-        await print("  stop     - for Stop Commands");
-        await print("  clear    - for Clear Terminal Screen");
-        await print("  reboot   - for Restart the Terminal System");
-        await print("  say      - for Send a Message");
-        await print("----------------");
-        break;
-
-      case "lang":
-        const langCode = args[1]; // contoh: "lang id" atau "lang en"
-        if (langCode === "id" || langCode === "en") {
-          updateLanguage(langCode);
-          await print(i18n[currentLang].lang_changed);
-        } else {
-          await print("Available languages: id, en");
-        }
-        break;
-
-      case "about":
-        await print("--- SYSTEM INFO ---");
-        await print("User     : Ox");
-        await print("Based In : Bandung, Indonesia 🇮🇩");
-        await print("Stack    : HTML, CSS, Tailwind, JS");
-        await print("Focus    : Web Dev & Graphic Design");
-        await print("Status   : Open for new projects!");
-        await print("-------------------");
-        break;
-
-      case "light":
-        document.body.style.backgroundColor = "#ffffff";
-        document.body.style.color = "#000000";
-        await print("Switched to Light Mode!");
-        break;
-
-      case "hacker":
-        if (!isHackerMode) {
-          isHackerMode = true;
-          document.body.classList.add("glitch-effect");
-          promptLabel.className = "text-rose-500 font-bold";
-          termStatus.innerText = "HACKER MODE ACTIVE";
-          await print("Accessing deep system... [SECURITY BREACH]");
-        }
-        break;
-
-      case "date":
-        const now = new Date();
-        await print(`Current date & time: ${now.toLocaleString()}`);
-        break;
-
-      case "matrix":
-        startMatrix();
-        await print("Initializing Matrix Rain...");
-        break;
-
-      case "stop":
-        let stoppedSomething = false;
-        if (matrixInterval) {
-          clearInterval(matrixInterval);
-          matrixInterval = null;
-          canvas.classList.remove("opacity-80", "opacity-30");
-          canvas.classList.add("opacity-0");
-          stoppedSomething = true;
-        }
-        if (isHackerMode) {
-          isHackerMode = false;
-          document.body.classList.remove("glitch-effect");
-          promptLabel.className = "text-emerald-400 font-bold";
-          termStatus.innerText = "system ready";
-          stoppedSomething = true;
-        }
-        if (stoppedSomething) await print("Processes terminated.");
-        else await print("No active processes to stop.");
-        break;
-
-      case "clear":
-        termOutput.innerHTML = "";
-        break;
-
-      case "secret":
-        await print("Hidden Path Unlocked: Cookies for you 🍪");
-        break;
-
-      case "reboot":
-        await print("System reboot initiated...");
-        await sleep(800);
-        await print("Shutting down services...");
-        await sleep(600);
-        await print("Restarting kernel...");
-        await sleep(1000);
-        await print("Done 🗸");
-        await sleep(500);
-        location.reload();
-        break;
-
-      case "say":
-        const messageContent = args.slice(1).join(" ");
-        if (!messageContent) {
-          await print(i18n[currentLang].invalid_format);
-        } else {
-          try {
-            // Panggil API kita sendiri (Vercel akan otomatis mengarahkannya)
-            const response = await fetch("/api/send-message", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: `New visitor message (${currentLang}): ${messageContent}` }),
-            });
-
-            if (response.ok) {
-              await print(i18n[currentLang].msg_sent);
-            } else {
-              await print(i18n[currentLang].err_failed);
-            }
-          } catch (error) {
-            await print(i18n[currentLang].err_failed);
-          }
-        }
-        break;
-
-      default:
-        await print(`Error: Command '${cmd}' not found. Did you mean 'help'?`);
-    } // Ini penutup switch
-  } // Ini penutup if(e.key === "Enter")
-}); // Ini penutup event listener
-
-// EVENT LISTENERS
 termContainer.addEventListener("click", () => {
   if (window.getSelection().toString() === "") termInput.focus();
 });
 
-// OBSERVER (Untuk trigger boot)
 const terminalSection = document.getElementById("terminal-container");
 const observer = new IntersectionObserver(
   (entries) => {
@@ -290,7 +294,6 @@ const observer = new IntersectionObserver(
 
 if (terminalSection) observer.observe(terminalSection);
 
-// --- JALANKAN SAAT WEB LOAD ---
 document.addEventListener("DOMContentLoaded", () => {
   updateLanguage(currentLang);
 });
