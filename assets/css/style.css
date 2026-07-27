@@ -5,16 +5,14 @@ body {
   font-family: "JetBrains Mono", monospace;
 }
 
-/* Mengunci ruang agar tidak bergeser */
 #typing-text {
   display: inline-block;
-  min-width: 250px; /* Sesuaikan dengan lebar teks terpanjangmu */
-  white-space: pre; /* Memastikan spasi dihitung dengan benar */
+  min-width: 250px;
+  white-space: pre;
   vertical-align: top;
   font-family: "JetBrains Mono", monospace !important;
 }
 
-/* Memastikan kursor bawaan Typed.js tidak bergetar */
 .typed-cursor {
   font-weight: 100;
   animation: blink 0.7s infinite;
@@ -37,7 +35,6 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-/* Animasi Clean Entrance */
 @keyframes subtleSlideUp {
   from {
     opacity: 0;
@@ -61,7 +58,6 @@ body {
   animation-delay: 0.3s;
 }
 
-/* Sembunyikan scrollbar tapi tetap bisa di-scroll */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -70,7 +66,6 @@ body {
   scrollbar-width: none;
 }
 
-/* Efek glitch sederhana untuk hacker mode */
 .glitch-effect {
   text-shadow:
     2px 0 red,
@@ -93,13 +88,10 @@ body {
 }
 
 #terminal-container {
-  /* Mencegah scroll halaman saat user scroll di dalam terminal */
   overscroll-behavior: contain;
-  /* Memastikan container tidak menabrak keyboard */
   max-height: 80vh;
 }
 
-/* Optimasi mobile untuk font agar tidak auto-zoom di iOS */
 #terminal-input {
-  font-size: 16px !important; /* iOS akan auto-zoom jika font < 16px saat input fokus */
+  font-size: 16px !important;
 }

@@ -1,10 +1,27 @@
+function playSystemSound() {
+  const audio = document.getElementById("beep-sound");
+  if (audio) {
+    audio.muted = false;
+    audio.currentTime = 0;
+    audio.play().catch((e) => console.log("Audio blocked by browser, click the page first!"));
+  }
+}
+
+function stopSystemSound() {
+  const audio = document.getElementById("beep-sound");
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
 const termInput = document.getElementById("terminal-input");
 const termOutput = document.getElementById("terminal-output");
 const termContainer = document.getElementById("terminal-container");
 const promptLabel = document.getElementById("prompt-label");
 const termStatus = document.getElementById("term-status");
 const canvas = document.getElementById("matrix-canvas");
-const sendBtn = document.getElementById("send-btn"); // Menambahkan referensi tombol
+const sendBtn = document.getElementById("send-btn");
 
 const i18n = {
   en: {
@@ -47,13 +64,13 @@ async function print(text, delay = 10) {
   termOutput.scrollTop = termOutput.scrollHeight;
 }
 
-// FUNGSI PUSAT PEMROSESAN (Ini yang dipanggil tombol & enter)
+// FUNGSI PUSAT PEMROSESAN
 async function processInput() {
   const fullCmd = termInput.value.trim();
-  if (!fullCmd) return; // Jangan proses kalau kosong
+  if (!fullCmd) return;
 
   const lowerCmd = fullCmd.toLowerCase();
-  termInput.value = ""; // Kosongkan input
+  termInput.value = "";
 
   termOutput.innerHTML += `<div><span class="text-emerald-400">botby@ox:</span> ${fullCmd}</div>`;
   termOutput.scrollTop = termOutput.scrollHeight;
@@ -110,7 +127,10 @@ async function processInput() {
         isHackerMode = true;
         document.body.classList.add("glitch-effect");
         promptLabel.className = "text-rose-500 font-bold";
-        termStatus.innerText = "HACKER MODE ACTIVE";
+
+        playSystemSound();
+
+        await print("HACKER MODE ACTIVE", "text-rose-500 font-bold");
         await print("Accessing deep system... [SECURITY BREACH]");
       }
       break;
@@ -134,13 +154,17 @@ async function processInput() {
         canvas.classList.add("opacity-0");
         stoppedSomething = true;
       }
+
       if (isHackerMode) {
         isHackerMode = false;
         document.body.classList.remove("glitch-effect");
         promptLabel.className = "text-emerald-400 font-bold";
-        termStatus.innerText = "system ready";
+
+        stopSystemSound();
+
         stoppedSomething = true;
       }
+
       if (stoppedSomething) await print("Processes terminated.");
       else await print("No active processes to stop.");
       break;
@@ -191,10 +215,9 @@ async function processInput() {
     default:
       await print(`Error: Command '${cmd}' not found. Did you mean 'help'?`);
   }
-  termInput.focus(); // Kembalikan fokus ke input setelah perintah selesai
+  termInput.focus();
 }
 
-// --- FUNGSI UPDATE BAHASA ---
 function updateLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("userLang", lang);
@@ -206,7 +229,6 @@ function updateLanguage(lang) {
   });
 }
 
-// LOGIKA MATRIX
 function startMatrix() {
   if (matrixInterval) clearInterval(matrixInterval);
   canvas.classList.remove("opacity-0", "opacity-30");
@@ -230,40 +252,26 @@ function startMatrix() {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function runBootSequence() {
-  const output = document.getElementById("terminal-output");
-  const input = document.getElementById("terminal-input");
-  const audio = document.getElementById("beep-sound");
-  const matrixCanvas = document.getElementById("matrix-canvas");
-
-  matrixCanvas.classList.remove("opacity-0", "opacity-80");
-  matrixCanvas.classList.add("opacity-30");
-
-  if (output.dataset.booted === "true") return;
-  output.dataset.booted = "true";
+  if (termOutput.dataset.booted === "true") return;
+  termOutput.dataset.booted = "true";
 
   const bootLines = ["Initializing Ox-OS v2.6.0...", "Mounting kernel modules... [OK]", "Configuring network interface... [OK]", "Loading user profile data... [OK]", "System ready. Type 'help' to start."];
 
-  input.disabled = true;
-  output.innerHTML = "";
+  termInput.disabled = true;
+  termOutput.innerHTML = "";
 
   for (let line of bootLines) {
-    if (audio) {
-      audio.currentTime = 0;
-      audio.play().catch((e) => console.log("Audio muted"));
-    }
     const p = document.createElement("p");
     p.className = "text-emerald-400 font-mono";
     p.textContent = `> ${line}`;
-    output.appendChild(p);
-    output.scrollTop = output.scrollHeight;
+    termOutput.appendChild(p);
+    termOutput.scrollTop = termOutput.scrollHeight;
     await sleep(800);
   }
 
-  input.disabled = false;
-  input.focus({ preventScroll: true });
+  termInput.disabled = false;
+  termInput.focus({ preventScroll: true });
 }
-
-// --- EVENT LISTENERS ---
 
 // 1. Enter Key
 termInput.addEventListener("keydown", async (e) => {

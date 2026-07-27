@@ -132,7 +132,6 @@ function closeCalcModal() {
 function appendCalcValue(val) {
   const display = document.getElementById("calcDisplay");
   if (display) {
-    // Jika layar berisi teks error prank, bersihkan dulu saat mengetik angka baru
     if (wrongAnswers.includes(display.value)) {
       display.value = "";
       display.style.color = themes[currentTheme].primary;
@@ -141,9 +140,8 @@ function appendCalcValue(val) {
   }
 }
 
-// Fungsi prank saat menekan tombol Sama Dengan (=)
 function calculateResult() {
-  showFakePay(); // Pemicu bayar hanya dipanggil di tombol "="
+  showFakePay();
 }
 
 function sabotageCalc() {
@@ -151,7 +149,7 @@ function sabotageCalc() {
   if (display) {
     const randomIndex = Math.floor(Math.random() * wrongAnswers.length);
     display.value = wrongAnswers[randomIndex];
-    display.style.color = "#fb7185"; // Rose-400 untuk error
+    display.style.color = "#fb7185";
   }
 }
 
@@ -172,7 +170,6 @@ function closeFakePay() {
   }
 }
 
-// Shortcut keyboard Esc
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeFakePay();
@@ -257,15 +254,13 @@ hamburger.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
 });
 
-// Menutup menu saat link diklik
 document.querySelectorAll("#mobile-menu a").forEach((link) => {
   link.addEventListener("click", () => {
     mobileMenu.classList.add("hidden");
   });
 });
 
-// Memaksa browser ke atas saat halaman dimuat
-window.history.scrollRestoration = "manual"; // Mencegah browser scroll otomatis ke posisi terakhir
+window.history.scrollRestoration = "manual";
 window.onload = () => {
   window.scrollTo(0, 0);
 };

@@ -100,7 +100,7 @@
       </div>
     </section>
 
-    <audio id="beep-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
+    <audio id="beep-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
 
     <!-- TERMINAL ULTIMATE SECTION -->
     <section id="terminal-section" class="max-w-3xl mx-auto px-6 py-12">
@@ -108,7 +108,7 @@
         <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider font-mono">System Terminal</h2>
       </div>
 
-      <!-- Terminal Container (Dibungkus agar fokus stabil) -->
+      <!-- Terminal Container -->
       <div id="terminal-container" class="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden font-mono text-xs shadow-2xl relative cursor-text group">
         <!-- Scanline & Matrix Overlay -->
         <div
@@ -141,11 +141,11 @@
               <span class="text-emerald-400 pt-0.5 font-bold cursor-blink">➝</span>
             </div>
 
-            <!-- Input Wrapper (Flex-1: Mengambil sisa ruang, Min-w-0: Mencegah overflow) -->
+            <!-- Input Wrapper -->
             <div id="input-wrapper" class="flex flex-1 items-center gap-2 min-w-0">
               <input type="text" id="terminal-input" autocomplete="off" class="w-full bg-transparent outline-none border-none p-0 text-white focus:ring-0 text-xs h-4" placeholder="Type here..." />
 
-              <!-- Tombol Send (Flex-shrink-0: Agar tombol tidak ikut mengecil/gepeng) -->
+              <!-- Tombol Send -->
               <button id="send-btn" class="flex-shrink-0 text-emerald-400 item-center border border-emerald-500/30 px-2 py-0.5 rounded text-xs font-mono hover:bg-emerald-900/20 transition-all active:scale-95 whitespace-nowrap">Send</button>
             </div>
           </div>

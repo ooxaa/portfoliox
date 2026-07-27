@@ -1,11 +1,10 @@
 export default async function handler(req, res) {
-  // Hanya izinkan metode POST
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
   const { message } = req.body;
-  const webhookURL = process.env.DISCORD_WEBHOOK_URL; // URL rahasia diambil dari sini
+  const webhookURL = process.env.DISCORD_WEBHOOK_URL; // URL rahasia
 
   try {
     const response = await fetch(webhookURL, {
