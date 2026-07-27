@@ -122,13 +122,15 @@
         <!-- Terminal Body -->
         <div class="relative z-30 p-4 h-64 flex flex-col bg-zinc-950/90">
           <div id="terminal-output" class="flex-1 overflow-y-auto space-y-2 text-zinc-300 scrollbar-hide">
-            <p class="text-emerald-400">OX-OS v2.6.0 [Kernel 5.15.0-generic]</p>
-            <p class="text-zinc-500">// Type 'help' to initialize system</p>
+            <p class="text-emerald-400">Ox-OS v2.6.0 [Kernel 5.15.0-generic]</p>
+            <!-- <p class="text-zinc-500">Loading...</p> -->
           </div>
 
           <!-- Input Line -->
           <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
-            <span id="prompt-label" class="text-emerald-400 font-bold shrink-0">ox@dev:~$</span>
+            <span id="prompt-label" class="text-emerald-400 font-bold shrink-0">botby@ox:</span>
+            <!-- Ini kursor palsu untuk mobile -->
+            <span class="text-emerald-400 font-bold cursor-blink">_</span>
             <!-- Hapus atribut "autofocus" pada input -->
             <input type="text" id="terminal-input" autocomplete="off" class="w-full bg-transparent outline-none border-none p-0 text-white focus:ring-0 text-sm" />
           </div>

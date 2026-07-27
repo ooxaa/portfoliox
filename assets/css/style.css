@@ -33,6 +33,10 @@ body {
   }
 }
 
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
 /* Animasi Clean Entrance */
 @keyframes subtleSlideUp {
   from {

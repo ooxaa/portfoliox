@@ -211,64 +211,7 @@ function toggleCoffee() {
 }
 
 // ==========================================
-// 6. TERMINAL WIDGET LOGIC
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-  const termInput = document.getElementById("terminal-input");
-  const termOutput = document.getElementById("terminal-output");
-
-  if (termInput && termOutput) {
-    termInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        const cmd = this.value.trim().toLowerCase();
-        this.value = "";
-
-        const userLine = document.createElement("div");
-        userLine.innerHTML = `<span class="text-emerald-400 font-bold">ox@dev:~$</span> <span>${escapeHTML(cmd)}</span>`;
-        termOutput.appendChild(userLine);
-
-        if (cmd === "") return;
-
-        const response = document.createElement("div");
-        response.className = "text-zinc-400 mb-2 pl-2 border-l border-indigo-500/50";
-
-        switch (cmd) {
-          case "help":
-            response.innerHTML = `Available commands:<br>
-            • <span class="text-indigo-400">whoami</span> : Brief intro<br>
-            • <span class="text-indigo-400">skills</span> : Tech stack summary<br>
-            • <span class="text-indigo-400">contact</span> : Get my email<br>
-            • <span class="text-indigo-400">clear</span>   : Clear terminal`;
-            break;
-          case "whoami":
-            response.innerHTML = "Ox — Front-End Developer & Designer. Building clean web logic and interfaces.";
-            break;
-          case "skills":
-            response.innerHTML = "HTML5, CSS3, Tailwind CSS, JavaScript, Git/GitHub, Graphic Design.";
-            break;
-          case "contact":
-            response.innerHTML = "Reach me via email or social links below!";
-            break;
-          case "clear":
-            termOutput.innerHTML = "";
-            return;
-          default:
-            response.innerHTML = `Command not recognized: <span class="text-rose-400">'${escapeHTML(cmd)}'</span>. Type <span class="text-indigo-400">'help'</span> for list.`;
-        }
-
-        termOutput.appendChild(response);
-        termOutput.scrollTop = termOutput.scrollHeight;
-      }
-    });
-  }
-});
-
-function escapeHTML(str) {
-  return str.replace(/[&<>'"]/g, (tag) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[tag] || tag);
-}
-
-// ==========================================
-// 7. TYPING EFFECT LOGIC
+// 6. TYPING EFFECT LOGIC
 // ==========================================
 const words = ["Front-End Developer", "UI/UX Enthusiast", "Graphic Designer", "Digital Creator"];
 let wordIndex = 0;

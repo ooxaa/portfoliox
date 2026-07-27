@@ -7,6 +7,7 @@ const canvas = document.getElementById("matrix-canvas");
 
 let isHackerMode = false;
 let matrixInterval = null;
+let secretNum = null;
 
 // FUNGSI UTAMA: Print teks
 async function print(text, delay = 10) {
@@ -61,7 +62,7 @@ async function runBootSequence() {
   if (output.dataset.booted === "true") return;
   output.dataset.booted = "true";
 
-  const bootLines = ["Initializing OX-OS v2.6.0...", "Mounting kernel modules... [OK]", "Configuring network interface... [OK]", "Loading user profile data... [OK]", "System ready. Type 'help' to start."];
+  const bootLines = ["Initializing Ox-OS v2.6.0...", "Mounting kernel modules... [OK]", "Configuring network interface... [OK]", "Loading user profile data... [OK]", "System ready. Type 'help' to start."];
 
   input.disabled = true;
   output.innerHTML = "";
@@ -94,10 +95,32 @@ termInput.addEventListener("keydown", async (e) => {
 
     switch (cmd) {
       case "help":
-        await print("Commands: whoami, matrix, hacker, secret, clear, stop");
+        await print("--- SYSTEM COMMANDS ---");
+        await sleep(200);
+        await print("  about    - for About Me (Ox)");
+        await print("  light - for Switch Light Mode");
+        await print("  hacker  - for Hack Mode");
+        await print("  date     - for Show Current Date/Time");
+        await print("  matrix    - for Matrix Mode");
+        await print("  secret  - for Secret");
+        await print("  stop    - for Stop Commands");
+        await print("  clear    - for Clear Terminal Screen");
+        await print("  reboot   - for Restart the Terminal System");
+        await print("----------------");
         break;
-      case "whoami":
-        await print("Hi, I'm Ox. I'm your baby, right?");
+      case "about":
+        await print("--- SYSTEM INFO ---");
+        await print("User     : Ox");
+        await print("Based In : Bandung, Indonesia 🇮🇩");
+        await print("Stack    : HTML, CSS, Tailwind, JS");
+        await print("Focus    : Web Dev & Graphic Design");
+        await print("Status   : Open for new projects!");
+        await print("-------------------");
+        break;
+      case "light":
+        document.body.style.backgroundColor = "#ffffff";
+        document.body.style.color = "#000000";
+        await print("Switched to Light Mode! Wow, You're a 'Natural Hacker' 👨‍💻");
         break;
       case "hacker":
         if (!isHackerMode) {
@@ -107,6 +130,10 @@ termInput.addEventListener("keydown", async (e) => {
           termStatus.innerText = "HACKER MODE ACTIVE";
           await print("Accessing deep system... [SECURITY BREACH]");
         }
+        break;
+      case "date":
+        const now = new Date();
+        await print(`Current date & time: ${now.toLocaleString()}`);
         break;
       case "matrix":
         startMatrix();
@@ -135,10 +162,21 @@ termInput.addEventListener("keydown", async (e) => {
         termOutput.innerHTML = "";
         break;
       case "secret":
-        await print("Hidden Path Unlocked: 🍪");
+        await print("Hidden Path Unlocked: Cookies for you 🍪");
+        break;
+      case "reboot":
+        await print("System reboot initiated...");
+        await sleep(800);
+        await print("Shutting down services...");
+        await sleep(600);
+        await print("Restarting kernel...");
+        await sleep(1000);
+        await print("Done 🗸");
+        await sleep(500);
+        location.reload(); // Perintah untuk memuat ulang halaman
         break;
       default:
-        await print(`Error: Command '${cmd}' not found.`);
+        await print(`Error: Command not found. Did you mean 'help'?`);
     }
   }
 });
