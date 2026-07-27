@@ -4,6 +4,33 @@ const termContainer = document.getElementById("terminal-container");
 const promptLabel = document.getElementById("prompt-label");
 const termStatus = document.getElementById("term-status");
 const canvas = document.getElementById("matrix-canvas");
+const i18n = {
+  en: {
+    hero_title: "Hi, I'm Ox.",
+    hero_intro: "I'm a",
+    about_text: "I build clean, responsive, and intuitive web interfaces — blending solid code logic with thoughtful visual design.",
+    btn_contact: "Get in Touch",
+    sys_ready: "System ready. Type 'help' to start.",
+    msg_sent: "Message delivered successfully! 🚀",
+    lang_changed: "Language changed to English.",
+    err_failed: "System connection failed. ⚠️",
+    invalid_format: "Invalid format. Use: say [your message]",
+  },
+  id: {
+    hero_title: "Halo, saya Ox.",
+    hero_intro: "Saya seorang",
+    about_text: "Saya membangun antarmuka web yang bersih, responsif, dan intuitif — memadukan logika kode yang solid dengan desain visual yang matang.",
+    btn_contact: "Hubungi Saya",
+    sys_ready: "Sistem siap. Ketik 'help' untuk memulai.",
+    msg_sent: "Pesan berhasil terkirim! 🚀",
+    lang_changed: "Bahasa diubah ke Indonesia.",
+    err_failed: "Gagal terhubung ke sistem. ⚠️",
+    invalid_format: "Format salah. Ketik: say [pesanmu]",
+  },
+};
+
+let currentLang = localStorage.getItem("userLang") || "en";
+// --- SEMUA KODINGAN LAINNYA DI BAWAH INI ---
 
 let isHackerMode = false;
 let matrixInterval = null;
@@ -19,6 +46,20 @@ async function print(text, delay = 10) {
     await new Promise((r) => setTimeout(r, delay));
   }
   termOutput.scrollTop = termOutput.scrollHeight;
+}
+
+// --- FUNGSI UPDATE BAHASA ---
+function updateLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem("userLang", lang);
+
+  // Mengganti semua elemen yang memiliki atribut data-i18n
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.getAttribute("data-i18n");
+    if (i18n[lang][key]) {
+      element.innerText = i18n[lang][key];
+    }
+  });
 }
 
 // LOGIKA MATRIX (Disederhanakan agar tidak bentrok)
@@ -100,6 +141,7 @@ termInput.addEventListener("keydown", async (e) => {
       case "help":
         await print("--- SYSTEM COMMANDS ---");
         await sleep(200);
+        await print("  lang     - for Language/Bahasa");
         await print("  about    - for About Me");
         await print("  light    - for Switch Light Mode");
         await print("  hacker   - for Hack Mode");
@@ -111,6 +153,16 @@ termInput.addEventListener("keydown", async (e) => {
         await print("  reboot   - for Restart the Terminal System");
         await print("  say      - for Send a Message");
         await print("----------------");
+        break;
+
+      case "lang":
+        const langCode = args[1]; // contoh: "lang id" atau "lang en"
+        if (langCode === "id" || langCode === "en") {
+          updateLanguage(langCode);
+          await print(i18n[currentLang].lang_changed);
+        } else {
+          await print("Available languages: id, en");
+        }
         break;
 
       case "about":
@@ -239,3 +291,8 @@ const observer = new IntersectionObserver(
 );
 
 if (terminalSection) observer.observe(terminalSection);
+
+// --- JALANKAN SAAT WEB LOAD ---
+document.addEventListener("DOMContentLoaded", () => {
+  updateLanguage(currentLang);
+});
