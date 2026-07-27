@@ -119,7 +119,7 @@ async function processInput() {
     case "light":
       document.body.style.backgroundColor = "#ffffff";
       document.body.style.color = "#000000";
-      await print("Switched to Light Mode!");
+      await print("Switched to Light Mode! You're a 'Natural Hacker'👽");
       break;
 
     case "hacker":
