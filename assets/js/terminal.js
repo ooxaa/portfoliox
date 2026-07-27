@@ -84,30 +84,35 @@ async function runBootSequence() {
   input.focus({ preventScroll: true });
 }
 
-// LOGIKA INPUT PERINTAH
 termInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
-    const cmd = termInput.value.trim().toLowerCase();
+    const fullCmd = termInput.value.trim();
+    const lowerCmd = fullCmd.toLowerCase();
     termInput.value = "";
 
-    termOutput.innerHTML += `<div><span class="text-emerald-400">ox@dev:~$</span> ${cmd}</div>`;
+    termOutput.innerHTML += `<div><span class="text-emerald-400">botby@ox:</span> ${fullCmd}</div>`;
     termOutput.scrollTop = termOutput.scrollHeight;
+
+    const args = lowerCmd.split(" ");
+    const cmd = args[0];
 
     switch (cmd) {
       case "help":
         await print("--- SYSTEM COMMANDS ---");
         await sleep(200);
-        await print("  about    - for About Me (Ox)");
-        await print("  light - for Switch Light Mode");
-        await print("  hacker  - for Hack Mode");
+        await print("  about    - for About Me");
+        await print("  light    - for Switch Light Mode");
+        await print("  hacker   - for Hack Mode");
         await print("  date     - for Show Current Date/Time");
-        await print("  matrix    - for Matrix Mode");
-        await print("  secret  - for Secret");
-        await print("  stop    - for Stop Commands");
+        await print("  matrix   - for Matrix Mode");
+        await print("  secret   - for Secret");
+        await print("  stop     - for Stop Commands");
         await print("  clear    - for Clear Terminal Screen");
         await print("  reboot   - for Restart the Terminal System");
+        await print("  say      - for Send a Message");
         await print("----------------");
         break;
+
       case "about":
         await print("--- SYSTEM INFO ---");
         await print("User     : Ox");
@@ -117,11 +122,13 @@ termInput.addEventListener("keydown", async (e) => {
         await print("Status   : Open for new projects!");
         await print("-------------------");
         break;
+
       case "light":
         document.body.style.backgroundColor = "#ffffff";
         document.body.style.color = "#000000";
-        await print("Switched to Light Mode! Wow, You're a 'Natural Hacker' 👨‍💻");
+        await print("Switched to Light Mode!");
         break;
+
       case "hacker":
         if (!isHackerMode) {
           isHackerMode = true;
@@ -131,14 +138,17 @@ termInput.addEventListener("keydown", async (e) => {
           await print("Accessing deep system... [SECURITY BREACH]");
         }
         break;
+
       case "date":
         const now = new Date();
         await print(`Current date & time: ${now.toLocaleString()}`);
         break;
+
       case "matrix":
         startMatrix();
         await print("Initializing Matrix Rain...");
         break;
+
       case "stop":
         let stoppedSomething = false;
         if (matrixInterval) {
@@ -158,12 +168,15 @@ termInput.addEventListener("keydown", async (e) => {
         if (stoppedSomething) await print("Processes terminated.");
         else await print("No active processes to stop.");
         break;
+
       case "clear":
         termOutput.innerHTML = "";
         break;
+
       case "secret":
         await print("Hidden Path Unlocked: Cookies for you 🍪");
         break;
+
       case "reboot":
         await print("System reboot initiated...");
         await sleep(800);
@@ -173,13 +186,38 @@ termInput.addEventListener("keydown", async (e) => {
         await sleep(1000);
         await print("Done 🗸");
         await sleep(500);
-        location.reload(); // Perintah untuk memuat ulang halaman
+        location.reload();
         break;
+
+      case "say":
+        const messageContent = args.slice(1).join(" ");
+        if (!messageContent) {
+          await print(i18n[currentLang].invalid_format);
+        } else {
+          try {
+            // Panggil API kita sendiri (Vercel akan otomatis mengarahkannya)
+            const response = await fetch("/api/send-message", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: `New visitor message (${currentLang}): ${messageContent}` }),
+            });
+
+            if (response.ok) {
+              await print(i18n[currentLang].msg_sent);
+            } else {
+              await print(i18n[currentLang].err_failed);
+            }
+          } catch (error) {
+            await print(i18n[currentLang].err_failed);
+          }
+        }
+        break;
+
       default:
-        await print(`Error: Command not found. Did you mean 'help'?`);
-    }
-  }
-});
+        await print(`Error: Command '${cmd}' not found. Did you mean 'help'?`);
+    } // Ini penutup switch
+  } // Ini penutup if(e.key === "Enter")
+}); // Ini penutup event listener
 
 // EVENT LISTENERS
 termContainer.addEventListener("click", () => {
