@@ -30,8 +30,6 @@ const i18n = {
 };
 
 let currentLang = localStorage.getItem("userLang") || "en";
-// --- SEMUA KODINGAN LAINNYA DI BAWAH INI ---
-
 let isHackerMode = false;
 let matrixInterval = null;
 let secretNum = null;

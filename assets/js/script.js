@@ -213,7 +213,7 @@ function toggleCoffee() {
 // ==========================================
 // 6. TYPING EFFECT LOGIC
 // ==========================================
-const words = ["Front-End Developer", "UI/UX Enthusiast", "Graphic Designer", "Digital Creator"];
+const words = ["Front-End Developer", "UI/UX Enthusiast", "Graphic Designer", "Web Developer"];
 let wordIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
